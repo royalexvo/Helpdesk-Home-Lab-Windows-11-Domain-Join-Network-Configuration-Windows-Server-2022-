@@ -21,14 +21,16 @@ This project builds on previous labs where Active Directory Domain Services (AD 
 
 - <b>Oracle VirtualBox (v7.2.6)</b>
 - <b>Windows Server 2022 (64-bit)</b>
-- <b>Windows 11 Installation Media (ISO)</b>
+- <b>Windows 11 Pro</b>
 - <b>Command Prompt (CMD)</b>
+- <b>Active Directory Domain Services (AD DS)</b>
+- <b>Remote Desktop (RDP)</b>
 
 <h2>Environments Used </h2>
 
 - <b>Host Operating System: Windows 10 / Windows 11</b>
 - <b>Virtualization Platform: Oracle VirtualBox</b>
-- <b>Guest Operating System: Windows Server 2022</b>
+- <b>Guest Operating System: Windows Server 2022 (Domain Controller) and Windows 11 Pro (Client Machine)</b>
 
 <h2>Program walk-through:</h2>
 
