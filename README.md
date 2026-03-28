@@ -35,52 +35,56 @@ This project builds on previous labs where Active Directory Domain Services (AD 
 <h2>Program walk-through:</h2>
 
 <p align="center">
-Step 1 – Download and Install Oracle VirtualBox<br/><br/>
-Navigate to the Oracle VirtualBox website and download the latest version of VirtualBox (v7.2.6). Run the installer and follow the installation wizard to install VirtualBox on your host machine: <br/>
+Step 1 – Create Windows 11 Virtual Machine<br/><br/>
+Create a new VM in VirtualBox titled "Windows 11" and install Windows 11 Pro or Enterprise (Home edition will not support domain joining): <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%201.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 <br/>
-Step 2 – Download Windows Server 2022 ISO<br/><br/>
-Go to the Microsoft Evaluation Center and download the Windows Server 2022 ISO (64-bit). Save the ISO file to your system so it can be used to install the server operating system inside the virtual machine: <br/>
+Step 2 – Configure Initial VM Settings<br/><br/>
+Allocate system resources (e.g., 4GB RAM) and complete Windows 11 setup. I came across a bug where Windows 11 wouldn't install unless I dedicated 3 processors: <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%20II.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 <br />
-Step 3 – Download Windows 11 Installation Media<br/><br/>
-Navigate to the Microsoft Windows 11 download page and download the Windows 11 Installation Media Creation Tool. Use the tool to create a Windows 11 ISO file which will later be used as a client machine in the lab environment: <br/>
+Step 3 – Enable Network Connectivity<br/><br/>
+Configured network adapter settings by useing Bridged Adapter for internet access (optional) and Using Host-Only Adapter for internal lab communication. I Ensured the VM has proper network connectivity: <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%203.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 <br />
-Step 4 – Create a New Virtual Machine<br/><br/>
-Open Oracle VirtualBox and click “New” to create a new virtual machine. Name the virtual machine Server 2022 and select Microsoft Windows as the operating system type with Windows Server 2022 as the version: <br/>
+Step 4 – Rename the Client Machine<br/><br/>
+Rename the Windows 11 system (e.g., LAB-CLIENT) and restart to apply changes: <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%204.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 <br />
-Step 5 – Allocate System Resources<br/><br/>
-Configure the hardware settings for the virtual machine. Assign 8GB of RAM and 2 CPU cores to the virtual machine to ensure the server runs smoothly during installation and future lab exercises: <br/>
+Step 5 – Configure Static IP Address<br/><br/>
+Set a static IP on the Windows 11 machine: Example: 10.1.10.3, Subnet: 255.0.0.0, Gateway/DNS: 10.1.10.1 (Domain Controller): <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%205.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 <br />
-Step 6 – Mount the Windows Server 2022 ISO<br/><br/>
-Open the virtual machine settings and navigate to the Storage section. Attach the downloaded Windows Server 2022 ISO file to the virtual optical drive so the virtual machine can boot from it during installation: <br/>
+Step 6 – Verify Domain Controller Connectivity<br/><br/>
+Open Command Prompt and test connectivity using "ping 10.1.10.2". Ensure the client can communicate with the domain controller: <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%206.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 <br />
-Step 7 – Start the Virtual Machine<br/><br/>
-Start the virtual machine in VirtualBox. When prompted, select the Windows Server 2022 ISO file and allow the system to boot into the Windows Server installation setup: <br/>
+Step 7 – Confirm Domain Controller Details<br/><br/>
+On the server, verify domain setup and name (e.g., kevtech.com) and confirm Active Directory is functioning: <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%207.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 <br/>
-Step 8 – Install Windows Server 2022<br/><br/>
-Follow the Windows installation prompts and select Windows Server 2022 (Desktop Experience) to install the version with the graphical user interface. Choose Custom Installation and proceed using the default disk configuration: <br/>
+Step 8 – Join Windows 11 to Domain<br/><br/>
+On the Windows 11 machine. Right-click This PC → Properties. Select Domain or Workgroup → Change. Enter domain name (e.g., kevtech.com). Provide domain administrator credentials. Successful join will prompt confirmation: <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%208.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 <br/>
-Step 9 – Configure the Administrator Account<br/><br/>
-After installation completes, the system will prompt you to set a password for the Administrator account. Enter a secure password and press Ctrl + Alt + Delete to log into the server for the first time: <br/>
+Step 9 – Verify Domain Join in Active Directory<br/><br/>
+On the domain controller, check the Computers container to confirm the client machine appears: <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%209.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 <br/>
-Step 10 – Remove the Installation ISO<br/><br/>
-Once the installation finishes and the server boots successfully, remove the Windows Server 2022 ISO from the virtual machine’s storage settings to prevent the VM from booting into the installer again: <br/>
+Step 10 – Log in with Domain User<br/><br/>
+Switch user and log in using a domain account (e.g., Mark): DOMAIN\username. Verify successful authentication: <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%2010.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 <br/>
-Step 11 – Adjust Time Zone Settings<br/><br/>
-Open the system settings and configure the correct time zone for the server environment to ensure system time and logs are accurate: <br/>
+Step 11 – Enable Remote Desktop Access<br/><br/>
+On the server: Enable Remote Desktop. Add authorized users if needed. From Windows 11, connect using the server’s IP address: <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%2011.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 <br/>
-Step 12 – Test Shutdown and Restart Commands<br/><br/>
-Opened Command Prompt and tested the system management command shutdown /i looked at other shutdown options using shutdown /?. These commands demonstrate different ways to shut down or restart the server using both the GUI and command line: <br/>
+Step 12 – Test Remote Connection<br/><br/>
+Use Remote Desktop to log into the domain controller from the Windows 11 machine and verify connectivity: <br/>
+<img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%2012.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
+<br/>
+Step 13 – Lab Completion<br/><br/>
+At this stage, the environment includes a Domain Controller (Windows Server 2022) and a Domain-Joined Client (Windows 11). This setup enables future labs involving Group Policy (GPO), Shared folders, User management at scale, and Microsoft Intune integration: <br/>
 <img src="https://github.com/royalexvo/Helpdesk-Home-Lab-Windows-Server-2022-Installation-Virtual-Environment-Setup/blob/main/Step%2012.png?raw=true" height="80%" width="80%" alt="Lab Steps"/>
 </p>
 
